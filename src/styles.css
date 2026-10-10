@@ -19,7 +19,7 @@
 :root{--hero-video-overlay:linear-gradient(100deg,rgb(14 59 67/.72) 0%,rgb(14 59 67/.62) 55%,rgb(14 59 67/.45) 100%);--on-dark:#F7F6F2;--on-dark-muted:rgb(247 246 242/.82)}
 .header-overlay{position:fixed;top:0;left:0;right:0;background:transparent;border-bottom-color:transparent;transition:background .25s,border-color .25s,box-shadow .25s}
 .header-overlay:not(.is-solid) .desktop-nav a,.header-overlay:not(.is-solid) .nav-phone,.header-overlay:not(.is-solid) .language a,.header-overlay:not(.is-solid) .language .active,.header-overlay:not(.is-solid) .mobile-menu-button{color:var(--on-dark)}
-.header-overlay:not(.is-solid) .brand-logo{filter:brightness(0) invert(1)}
+.header-overlay:not(.is-solid) .brand-logo{background:var(--on-dark);border-radius:12px;padding:7px 11px;box-sizing:border-box;width:auto;height:64px;box-shadow:0 6px 22px rgb(4 26 31/.28)}
 .header-overlay.is-solid{background:var(--card);border-bottom-color:var(--border);box-shadow:var(--soft-shadow)}
 .hero{min-height:100vh;min-height:100svh;display:flex;align-items:center}
 .hero:after{background:var(--hero-video-overlay)}
@@ -53,3 +53,6 @@
 @media(max-width:760px){.steps-layout{grid-template-columns:1fr}.steps-photo{aspect-ratio:4/3}.service-gallery{grid-template-columns:1fr 1fr}.service-gallery img:last-child{display:none}.hero .hero-content{padding-top:110px}.header-overlay:not(.is-solid) .menu-mobile a{color:var(--foreground)}}
 @media(prefers-reduced-motion:reduce){.card-photo img{transition:none}.service-card:hover .card-photo img{transform:none}}
 .hero .eyebrow{color:var(--accent)}
+/* Logo plate: the logo's letters are dark navy, so on dark surfaces it sits on an off-white chip */
+.site-footer .brand-logo{background:var(--on-dark);border-radius:16px;padding:11px 15px;box-sizing:border-box;width:auto;height:104px;box-shadow:0 10px 30px rgb(4 26 31/.3)}
+@media(max-width:760px){.header-overlay:not(.is-solid) .brand-logo{height:52px;padding:5px 8px;border-radius:10px}.site-footer .brand-logo{height:82px;padding:9px 12px;border-radius:13px}}
