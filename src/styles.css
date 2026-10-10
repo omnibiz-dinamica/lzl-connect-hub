@@ -52,3 +52,4 @@
 .about-photo{margin:0 0 30px}.about-photo img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:16px}.about-photo figcaption{font-size:10px;color:var(--muted-foreground);margin-top:6px}
 @media(max-width:760px){.steps-layout{grid-template-columns:1fr}.steps-photo{aspect-ratio:4/3}.service-gallery{grid-template-columns:1fr 1fr}.service-gallery img:last-child{display:none}.hero .hero-content{padding-top:110px}.header-overlay:not(.is-solid) .menu-mobile a{color:var(--foreground)}}
 @media(prefers-reduced-motion:reduce){.card-photo img{transition:none}.service-card:hover .card-photo img{transform:none}}
+.hero .eyebrow{color:var(--accent)}
