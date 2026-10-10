@@ -53,3 +53,6 @@
 @media(max-width:760px){.steps-layout{grid-template-columns:1fr}.steps-photo{aspect-ratio:4/3}.service-gallery{grid-template-columns:1fr 1fr}.service-gallery img:last-child{display:none}.hero .hero-content{padding-top:110px}.header-overlay:not(.is-solid) .menu-mobile a{color:var(--foreground)}}
 @media(prefers-reduced-motion:reduce){.card-photo img{transition:none}.service-card:hover .card-photo img{transform:none}}
 .hero .eyebrow{color:var(--accent)}
+/* Logo plate: the logo's letters are dark navy, so on dark surfaces it sits on an off-white chip */
+.site-footer .brand-logo{background:var(--on-dark);border-radius:16px;padding:11px 15px;box-sizing:border-box;width:auto;height:104px;box-shadow:0 10px 30px rgb(4 26 31/.3)}
+@media(max-width:760px){.header-overlay:not(.is-solid) .brand-logo{height:52px;padding:5px 8px;border-radius:10px}.site-footer .brand-logo{height:82px;padding:9px 12px;border-radius:13px}}
