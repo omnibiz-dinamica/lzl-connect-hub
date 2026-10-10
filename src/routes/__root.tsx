@@ -79,11 +79,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "LZL Services — professionele schoonmaak" },
-      { name: "description", content: "LZL Services — uw lokale schoonmaakpartner in Bekkevort, België." },
       { name: "author", content: "LZL Services" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       {
