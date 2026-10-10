@@ -1,5 +1,6 @@
 export type Language = 'nl' | 'fr';
 export const business = { phone: '+32 493 84 85 40', phoneLink: '+32493848540', email: 'contact@lzlservices.br', city: 'Bekkevort', cities: ['Bekkevort'] };
+export const developer = { name: 'Dinâmica Solução', domain: 'www.dinamicasolucao.com', url: 'https://www.dinamicasolucao.com' };
 // Example rates only. Set confirmed=true only after the owner approves actual rates.
 export const pricing = { confirmed: false, perM2: 0.35, minimum: 65, upperMultiplier: 1.4, frequency: { once: 1, weekly: 4.33, multiple: 13, daily: 21.65 } };
 export function estimate(area: number, frequency: keyof typeof pricing.frequency) { const min = Math.round(Math.max(pricing.minimum, area * pricing.perM2) * pricing.frequency[frequency]); return { min, max: Math.round(min * pricing.upperMultiplier) }; }
