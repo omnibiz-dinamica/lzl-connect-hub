@@ -1,10 +1,11 @@
 import { Link, useLocation } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { Sparkles, Phone, ArrowUpRight, MessageCircle, Menu, X } from 'lucide-react';
+import { Phone, ArrowUpRight, MessageCircle, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { business, type Language } from '@/lib/lzl/config';
 import { track } from './calculator';
-export function Logo(){return <><span className="brand-mark"><Sparkles size={25}/></span><span>LZL<span className="font-normal"> Services</span><small>PROFESSIONAL CLEANING</small></span></>}
+import logoAsset from '@/assets/lzl-logo.png.asset.json';
+export function Logo(){return <img className="brand-logo" src={logoAsset.url} alt="LZL Services" width={1920} height={1280}/>;}
 export function WhatsApp({lang,compact=false}:{lang:Language;compact?:boolean}){return <Button variant="outline" asChild><a href={`https://wa.me/32493848540?text=${encodeURIComponent(lang==='fr'?'Bonjour, je souhaite un devis de nettoyage.':'Hallo, ik ontvang graag een schoonmaakofferte.')}`} target="_blank" rel="noopener noreferrer" onClick={()=>track('whatsapp_click')}><MessageCircle/>{compact?'WhatsApp':lang==='fr'?'Envoyer un WhatsApp':'Stuur een WhatsApp'}</a></Button>}
 
 function LanguageLink({lang,suffix,active}:{lang:Language;suffix:string;active:boolean}){const parts=suffix.split('/').filter(Boolean);const className=active?'active':'';const label=lang.toUpperCase();if(parts[0]==='diensten'&&parts[1])return <Link to="/$lang/diensten/$slug" params={{lang,slug:parts[1]}} className={className}>{label}</Link>;if(parts[0]==='sectoren'&&parts[1])return <Link to="/$lang/sectoren/$slug" params={{lang,slug:parts[1]}} className={className}>{label}</Link>;if(parts[0]==='werkgebied'&&parts[1])return <Link to="/$lang/werkgebied/$stad" params={{lang,stad:parts[1]}} className={className}>{label}</Link>;if(parts[0])return <Link to="/$lang/$page" params={{lang,page:parts[0]}} className={className}>{label}</Link>;return <Link to="/$lang" params={{lang}} className={className}>{label}</Link>}
