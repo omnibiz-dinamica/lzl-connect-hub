@@ -10,33 +10,133 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LangRouteImport } from './routes/$lang'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as LangIndexRouteImport } from './routes/$lang.index'
+import { Route as LangSplatRouteImport } from './routes/$lang.$'
+import { Route as LangPageRouteImport } from './routes/$lang.$page'
+import { Route as LangDienstenSlugRouteImport } from './routes/$lang.diensten.$slug'
+import { Route as LangSectorenSlugRouteImport } from './routes/$lang.sectoren.$slug'
+import { Route as LangWerkgebiedStadRouteImport } from './routes/$lang.werkgebied.$stad'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LangRoute = LangRouteImport.update({
+  id: '/$lang',
+  path: '/$lang',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LangIndexRoute = LangIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangSplatRoute = LangSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangPageRoute = LangPageRouteImport.update({
+  id: '/$page',
+  path: '/$page',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangDienstenSlugRoute = LangDienstenSlugRouteImport.update({
+  id: '/diensten/$slug',
+  path: '/diensten/$slug',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangSectorenSlugRoute = LangSectorenSlugRouteImport.update({
+  id: '/sectoren/$slug',
+  path: '/sectoren/$slug',
+  getParentRoute: () => LangRoute,
+} as any)
+const LangWerkgebiedStadRoute = LangWerkgebiedStadRouteImport.update({
+  id: '/werkgebied/$stad',
+  path: '/werkgebied/$stad',
+  getParentRoute: () => LangRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$lang': typeof LangRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/$lang/$': typeof LangSplatRoute
+  '/$lang/$page': typeof LangPageRoute
+  '/$lang/': typeof LangIndexRoute
+  '/$lang/diensten/$slug': typeof LangDienstenSlugRoute
+  '/$lang/sectoren/$slug': typeof LangSectorenSlugRoute
+  '/$lang/werkgebied/$stad': typeof LangWerkgebiedStadRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/$lang/$': typeof LangSplatRoute
+  '/$lang/$page': typeof LangPageRoute
+  '/$lang': typeof LangIndexRoute
+  '/$lang/diensten/$slug': typeof LangDienstenSlugRoute
+  '/$lang/sectoren/$slug': typeof LangSectorenSlugRoute
+  '/$lang/werkgebied/$stad': typeof LangWerkgebiedStadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$lang': typeof LangRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/$lang/$': typeof LangSplatRoute
+  '/$lang/$page': typeof LangPageRoute
+  '/$lang/': typeof LangIndexRoute
+  '/$lang/diensten/$slug': typeof LangDienstenSlugRoute
+  '/$lang/sectoren/$slug': typeof LangSectorenSlugRoute
+  '/$lang/werkgebied/$stad': typeof LangWerkgebiedStadRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/$lang'
+    | '/sitemap.xml'
+    | '/$lang/$'
+    | '/$lang/$page'
+    | '/$lang/'
+    | '/$lang/diensten/$slug'
+    | '/$lang/sectoren/$slug'
+    | '/$lang/werkgebied/$stad'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/sitemap.xml'
+    | '/$lang/$'
+    | '/$lang/$page'
+    | '/$lang'
+    | '/$lang/diensten/$slug'
+    | '/$lang/sectoren/$slug'
+    | '/$lang/werkgebied/$stad'
+  id:
+    | '__root__'
+    | '/'
+    | '/$lang'
+    | '/sitemap.xml'
+    | '/$lang/$'
+    | '/$lang/$page'
+    | '/$lang/'
+    | '/$lang/diensten/$slug'
+    | '/$lang/sectoren/$slug'
+    | '/$lang/werkgebied/$stad'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LangRoute: typeof LangRouteWithChildren
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +148,89 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$lang': {
+      id: '/$lang'
+      path: '/$lang'
+      fullPath: '/$lang'
+      preLoaderRoute: typeof LangRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$lang/': {
+      id: '/$lang/'
+      path: '/'
+      fullPath: '/$lang/'
+      preLoaderRoute: typeof LangIndexRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/$': {
+      id: '/$lang/$'
+      path: '/$'
+      fullPath: '/$lang/$'
+      preLoaderRoute: typeof LangSplatRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/$page': {
+      id: '/$lang/$page'
+      path: '/$page'
+      fullPath: '/$lang/$page'
+      preLoaderRoute: typeof LangPageRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/diensten/$slug': {
+      id: '/$lang/diensten/$slug'
+      path: '/diensten/$slug'
+      fullPath: '/$lang/diensten/$slug'
+      preLoaderRoute: typeof LangDienstenSlugRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/sectoren/$slug': {
+      id: '/$lang/sectoren/$slug'
+      path: '/sectoren/$slug'
+      fullPath: '/$lang/sectoren/$slug'
+      preLoaderRoute: typeof LangSectorenSlugRouteImport
+      parentRoute: typeof LangRoute
+    }
+    '/$lang/werkgebied/$stad': {
+      id: '/$lang/werkgebied/$stad'
+      path: '/werkgebied/$stad'
+      fullPath: '/$lang/werkgebied/$stad'
+      preLoaderRoute: typeof LangWerkgebiedStadRouteImport
+      parentRoute: typeof LangRoute
+    }
   }
 }
 
+interface LangRouteChildren {
+  LangSplatRoute: typeof LangSplatRoute
+  LangPageRoute: typeof LangPageRoute
+  LangIndexRoute: typeof LangIndexRoute
+  LangDienstenSlugRoute: typeof LangDienstenSlugRoute
+  LangSectorenSlugRoute: typeof LangSectorenSlugRoute
+  LangWerkgebiedStadRoute: typeof LangWerkgebiedStadRoute
+}
+
+const LangRouteChildren: LangRouteChildren = {
+  LangSplatRoute: LangSplatRoute,
+  LangPageRoute: LangPageRoute,
+  LangIndexRoute: LangIndexRoute,
+  LangDienstenSlugRoute: LangDienstenSlugRoute,
+  LangSectorenSlugRoute: LangSectorenSlugRoute,
+  LangWerkgebiedStadRoute: LangWerkgebiedStadRoute,
+}
+
+const LangRouteWithChildren = LangRoute._addFileChildren(LangRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LangRoute: LangRouteWithChildren,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
