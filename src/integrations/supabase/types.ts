@@ -14,13 +14,159 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contact_submissions: {
+        Row: {
+          consent: boolean
+          created_at: string
+          email: string
+          id: string
+          language: string
+          message: string
+          name: string
+          phone: string
+        }
+        Insert: {
+          consent: boolean
+          created_at?: string
+          email: string
+          id?: string
+          language: string
+          message: string
+          name: string
+          phone?: string
+        }
+        Update: {
+          consent?: boolean
+          created_at?: string
+          email?: string
+          id?: string
+          language?: string
+          message?: string
+          name?: string
+          phone?: string
+        }
+        Relationships: []
+      }
+      job_applications: {
+        Row: {
+          availability: string
+          consent: boolean
+          created_at: string
+          cv_path: string | null
+          id: string
+          language: string
+          name: string
+          phone: string
+          region: string
+        }
+        Insert: {
+          availability: string
+          consent: boolean
+          created_at?: string
+          cv_path?: string | null
+          id?: string
+          language: string
+          name: string
+          phone: string
+          region: string
+        }
+        Update: {
+          availability?: string
+          consent?: boolean
+          created_at?: string
+          cv_path?: string | null
+          id?: string
+          language?: string
+          name?: string
+          phone?: string
+          region?: string
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          area: number
+          company: string
+          consent: boolean
+          created_at: string
+          email: string
+          frequency: string
+          id: string
+          indicative_max: number | null
+          indicative_min: number | null
+          language: string
+          name: string
+          phone: string
+          postcode: string
+          source: string
+          space_type: string
+          utm: Json
+          webhook_status: string
+        }
+        Insert: {
+          area: number
+          company: string
+          consent: boolean
+          created_at?: string
+          email: string
+          frequency: string
+          id?: string
+          indicative_max?: number | null
+          indicative_min?: number | null
+          language: string
+          name: string
+          phone: string
+          postcode: string
+          source: string
+          space_type: string
+          utm?: Json
+          webhook_status?: string
+        }
+        Update: {
+          area?: number
+          company?: string
+          consent?: boolean
+          created_at?: string
+          email?: string
+          frequency?: string
+          id?: string
+          indicative_max?: number | null
+          indicative_min?: number | null
+          language?: string
+          name?: string
+          phone?: string
+          postcode?: string
+          source?: string
+          space_type?: string
+          utm?: Json
+          webhook_status?: string
+        }
+        Relationships: []
+      }
+      submission_limits: {
+        Row: {
+          count: number
+          key: string
+          window_start: string
+        }
+        Insert: {
+          count?: number
+          key: string
+          window_start?: string
+        }
+        Update: {
+          count?: number
+          key?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      allow_submission: { Args: { p_key: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never

@@ -1,0 +1,15 @@
+CREATE TABLE public.leads (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), created_at timestamptz NOT NULL DEFAULT now(), name text NOT NULL, company text NOT NULL, email text NOT NULL, phone text NOT NULL, postcode text NOT NULL, space_type text NOT NULL, area integer NOT NULL, frequency text NOT NULL, language text NOT NULL, source text NOT NULL, utm jsonb NOT NULL DEFAULT '{}'::jsonb, consent boolean NOT NULL, indicative_min numeric, indicative_max numeric, webhook_status text NOT NULL DEFAULT 'not_configured');
+GRANT ALL ON public.leads TO service_role;
+ALTER TABLE public.leads ENABLE ROW LEVEL SECURITY;
+CREATE TABLE public.contact_submissions (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), created_at timestamptz NOT NULL DEFAULT now(), name text NOT NULL, email text NOT NULL, phone text NOT NULL DEFAULT '', message text NOT NULL, language text NOT NULL, consent boolean NOT NULL);
+GRANT ALL ON public.contact_submissions TO service_role;
+ALTER TABLE public.contact_submissions ENABLE ROW LEVEL SECURITY;
+CREATE TABLE public.job_applications (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), created_at timestamptz NOT NULL DEFAULT now(), name text NOT NULL, phone text NOT NULL, region text NOT NULL, availability text NOT NULL, cv_path text, language text NOT NULL, consent boolean NOT NULL);
+GRANT ALL ON public.job_applications TO service_role;
+ALTER TABLE public.job_applications ENABLE ROW LEVEL SECURITY;
+CREATE TABLE public.submission_limits (key text PRIMARY KEY, window_start timestamptz NOT NULL DEFAULT now(), count integer NOT NULL DEFAULT 1);
+GRANT ALL ON public.submission_limits TO service_role;
+ALTER TABLE public.submission_limits ENABLE ROW LEVEL SECURITY;
+CREATE FUNCTION public.allow_submission(p_key text) RETURNS boolean LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$ DECLARE v_count integer; BEGIN INSERT INTO public.submission_limits(key) VALUES (p_key) ON CONFLICT (key) DO UPDATE SET count = CASE WHEN submission_limits.window_start < now() - interval '1 hour' THEN 1 ELSE submission_limits.count + 1 END, window_start = CASE WHEN submission_limits.window_start < now() - interval '1 hour' THEN now() ELSE submission_limits.window_start END RETURNING count INTO v_count; RETURN v_count <= 6; END; $$;
+REVOKE ALL ON FUNCTION public.allow_submission(text) FROM PUBLIC, anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.allow_submission(text) TO service_role;
