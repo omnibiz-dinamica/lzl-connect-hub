@@ -66,5 +66,5 @@ export function galleryFor(slug: string) {
   const main = serviceImage(slug);
   const rest = media.serviceGallery.filter(p => p !== main);
   const start = Math.abs([...slug].reduce((a, c) => a + c.charCodeAt(0), 0)) % rest.length;
-  return [main, rest[start], rest[(start + 1) % rest.length]];
+  return [main, rest[start], rest[(start + 1) % rest.length]].filter((m): m is MediaImage => Boolean(m));
 }
