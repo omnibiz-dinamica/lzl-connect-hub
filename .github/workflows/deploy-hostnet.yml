@@ -1,0 +1,62 @@
+# Publishes the site to Hostnet over FTP on every push to main (Lovable commits included).
+# Builds the static version (npm run build:static → dist/) and uploads dist/ to /lzlservices/.
+#
+# Repository secrets (Settings → Secrets and variables → Actions → Secrets):
+#   FTP_SERVER     e.g. ftp.yourdomain.be
+#   FTP_USERNAME   FTP user from Hostnet
+#   FTP_PASSWORD   FTP password from Hostnet
+# Repository variables (same page → Variables), all optional:
+#   SITE_URL         public address, e.g. https://www.lzlservices.be (canonical, sitemap, robots)
+#   FTP_SERVER_DIR   remote folder, default /lzlservices/
+#   FTP_PROTOCOL     ftp (default), ftps or ftps-legacy
+#   N8N_WEBHOOK_URL  https webhook that also receives the form requests
+name: Deploy Hostnet (FTP)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-hostnet
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+
+      # bun.lock points at Lovable's private package mirror, which GitHub cannot reach,
+      # so dependencies are resolved from the public npm registry here.
+      - name: Install dependencies
+        run: |
+          rm -f bun.lock
+          bun install --ignore-scripts
+
+      - name: Build static site
+        run: bun run build:static
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          VITE_N8N_WEBHOOK_URL: ${{ vars.N8N_WEBHOOK_URL }}
+
+      - name: Check build output
+        run: |
+          test -f dist/index.html || { echo "::error::dist/index.html missing"; exit 1; }
+          test -f dist/.htaccess || { echo "::error::dist/.htaccess missing"; exit 1; }
+          ls -la dist
+
+      - name: Upload to Hostnet
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftp' }}
+          local-dir: ./dist/
+          server-dir: ${{ vars.FTP_SERVER_DIR || '/lzlservices/' }}
