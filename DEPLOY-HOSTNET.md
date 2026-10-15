@@ -18,7 +18,7 @@ dist/
 └── robots.txt
 ```
 
-É o conteúdo dessa pasta `dist/` que você envia por FTP para `/www/` na Hostnet.
+É o conteúdo dessa pasta `dist/` que você envia por FTP para `/lzlservices/` na Hostnet.
 
 ## Como o build estático funciona
 
@@ -51,9 +51,9 @@ Ao final aparecerá:
 ```
 
 Abra um cliente FTP (FileZilla, WinSCP, Cyberduck), conecte na Hostnet e
-**envie todo o conteúdo de `dist/` para `/www/`**. Não envie a pasta `dist`
+**envie todo o conteúdo de `dist/` para `/lzlservices/`**. Não envie a pasta `dist`
 em si — envie **os arquivos que estão dentro dela**, para que o `index.html`
-fique diretamente em `/www/index.html`.
+fique diretamente em `/lzlservices/index.html`.
 
 Acesse seu domínio — o site está no ar.
 
@@ -63,7 +63,7 @@ O workflow em `.github/workflows/deploy.yml` já está configurado para:
 
 1. Instalar dependências (`npm install`)
 2. Rodar `npm run build:static` (gera `dist/`)
-3. Enviar `./dist/` → `/www/` via FTP
+3. Enviar `./dist/` → `/lzlservices/` via FTP
 
 Configure os secrets no GitHub (**Settings → Secrets and variables → Actions**):
 
@@ -100,12 +100,12 @@ o build estático não depende de Nitro nem de servidor SSR.
 
 ## Se aparecer 403 Forbidden
 
-- Confirme que **`index.html` está diretamente em `/www/`**, não em
-  `/www/dist/index.html`.
+- Confirme que **`index.html` está diretamente em `/lzlservices/`**, não em
+  `/lzlservices/dist/index.html`.
 - Confirme que o `.htaccess` também foi enviado (arquivos iniciados por `.`
   às vezes ficam ocultos no cliente FTP — habilite "mostrar arquivos ocultos").
 
 ## Se aparecer 404 ao atualizar página interna
 
-- Verifique se o `.htaccess` está presente em `/www/`.
+- Verifique se o `.htaccess` está presente em `/lzlservices/`.
 - Confirme que o módulo `mod_rewrite` está ativo (Hostnet ativa por padrão).
